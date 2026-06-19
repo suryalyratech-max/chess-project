@@ -1,0 +1,288 @@
+body{
+    text-align:center;
+    font-family:Arial, sans-serif;
+    background:#1a1a1a;
+    color:white;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    margin-top:20px;
+    font-size:40px;
+}
+
+#turn{
+    font-size:24px;
+    margin:15px;
+    font-weight:bold;
+}
+
+#board{
+    width:min(95vw, 480px);
+    height:min(95vw, 480px);
+    margin:20px auto;
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    border:5px solid white;
+    box-shadow:0 0 20px rgba(255,255,255,0.3);
+}
+
+.square{
+    width:100%;
+    aspect-ratio:1/1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    user-select:none;
+    position:relative;
+}
+
+.white{
+    background:#f0d9b5;
+}
+
+.black{
+    background:#b58863;
+}
+
+.highlight{
+    outline:4px solid yellow;
+    outline-offset:-4px;
+}
+
+.possible-move::after{
+    content:"";
+    width:18px;
+    height:18px;
+    background:rgba(0,255,0,0.7);
+    border-radius:50%;
+    position:absolute;
+}
+
+.square img{
+    width:85%;
+    height:85%;
+    pointer-events:none;
+    user-select:none;
+    transition:all 0.3s ease;
+    object-fit:contain;
+}
+
+.moving-piece{
+    animation:moveAnim 0.3s ease;
+}
+
+@keyframes moveAnim{
+    0%{
+        transform:scale(0.7);
+        opacity:0.6;
+    }
+    50%{
+        transform:scale(1.15);
+    }
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+    animation:zoomIn 0.6s ease;
+}
+
+.popup h1{
+    font-size:70px;
+    color:gold;
+    text-shadow:0 0 20px yellow;
+}
+
+.hidden{
+    display:none;
+}
+
+@keyframes zoomIn{
+    from{
+        transform:scale(0.3);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+#captured-container{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    margin:20px;
+    flex-wrap:wrap;
+}
+
+#whiteCaptured,
+#blackCaptured{
+    min-width:120px;
+    min-height:40px;
+    padding:10px;
+    background:#333;
+    border-radius:8px;
+    font-size:18px;
+    word-wrap:break-word;
+}
+
+#history{
+    width:min(90vw, 250px);
+    margin:auto;
+    background:#222;
+    padding:15px;
+    border-radius:10px;
+    min-height:150px;
+    max-height:200px;
+    overflow-y:auto;
+}
+
+#restartBtn,
+#undoBtn,
+button{
+    margin:10px;
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+#restartBtn{
+    background:#4CAF50;
+    color:white;
+}
+
+#undoBtn{
+    background:#2196F3;
+    color:white;
+}
+
+#restartBtn:hover,
+#undoBtn:hover{
+    transform:scale(1.05);
+}
+
+#timer-container{
+    display:flex;
+    justify-content:center;
+    gap:50px;
+    margin:20px;
+    flex-wrap:wrap;
+}
+
+#whiteTimer,
+#blackTimer{
+    background:#333;
+    padding:15px 25px;
+    border-radius:10px;
+    font-size:24px;
+    font-weight:bold;
+    min-width:160px;
+}
+
+.check-popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:80px;
+    font-weight:bold;
+    color:red;
+    text-shadow:0 0 25px crimson;
+    z-index:1000;
+    animation:checkAnim 0.7s ease;
+}
+
+.king-in-check{
+    box-shadow: inset 0 0 25px red;
+}
+
+@keyframes checkAnim{
+    0%{
+        transform:translate(-50%,-50%) scale(0.2);
+        opacity:0;
+    }
+    50%{
+        transform:translate(-50%,-50%) scale(1.2);
+        opacity:1;
+    }
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:1;
+    }
+}
+
+#difficulty{
+    padding:10px 20px;
+    font-size:18px;
+    border-radius:8px;
+    margin:15px;
+}
+
+/* MOBILE */
+@media (max-width: 768px){
+
+    body{
+        padding:10px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    #turn{
+        font-size:18px;
+    }
+
+    #timer-container{
+        flex-direction:column;
+        gap:12px;
+        align-items:center;
+    }
+
+    #whiteTimer,
+    #blackTimer{
+        font-size:18px;
+        min-width:140px;
+        padding:12px;
+    }
+
+    #captured-container{
+        flex-direction:column;
+        gap:20px;
+        align-items:center;
+    }
+
+    #difficulty,
+    input,
+    button{
+        width:90%;
+        max-width:320px;
+        font-size:16px;
+    }
+
+    .popup h1{
+        font-size:38px;
+    }
+
+    .check-popup{
+        font-size:48px;
+    }
+}

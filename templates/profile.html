@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Player Profile</title>
+    <style>
+        body{
+            margin:0;
+            background:#111;
+            color:white;
+            font-family:Arial;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .profile-box{
+            background:#222;
+            padding:40px;
+            border-radius:20px;
+            width:400px;
+            text-align:center;
+            box-shadow:0 0 20px rgba(255,255,255,0.2);
+        }
+
+        h1{
+            margin-bottom:25px;
+        }
+
+        .stat{
+            background:#333;
+            padding:15px;
+            margin:10px 0;
+            border-radius:10px;
+            font-size:22px;
+        }
+
+        button{
+            margin-top:20px;
+            padding:12px 25px;
+            font-size:18px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-box">
+        <h1>♟ Player Profile</h1>
+
+        <div class="stat">Username: {{ username }}</div>
+        <div class="stat">Score: {{ score }}</div>
+        <div class="stat">Wins: {{ wins }}</div>
+        <div class="stat">Losses: {{ losses }}</div>
+
+        <button onclick="window.location='/game'">Play Game</button>
+    </div>
+
+</body>
+</html>
