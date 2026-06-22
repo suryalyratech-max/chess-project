@@ -68,8 +68,41 @@ function saveGameState() {
 }
 socket.on("receive_move", function (data) {
     game.load(data.fen);
+    selectedSquare = null;
+    possibleMoves = [];
+    rebuildHistory();
+    rebuildCaptured();
     drawBoard();
 });
+
+function rebuildHistory() {
+    historyDiv.innerHTML = "";
+    const moves = game.history({ verbose: true });
+    moves.forEach(move => updateHistory(move.san));
+}
+
+function rebuildCaptured() {
+    whiteCaptured = [];
+    blackCaptured = [];
+    const moves = game.history({ verbose: true });
+
+    moves.forEach(move => {
+        if (!move.captured) return;
+
+        const capturedPiece =
+            move.color === "w"
+                ? pieces[move.captured.toLowerCase()]
+                : pieces[move.captured.toUpperCase()];
+
+        if (move.color === "w") {
+            whiteCaptured.push(capturedPiece);
+        } else {
+            blackCaptured.push(capturedPiece);
+        }
+    });
+
+    updateCaptured();
+}
 
 function drawBoard() {
     board.innerHTML = "";
