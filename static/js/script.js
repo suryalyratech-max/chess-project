@@ -9,6 +9,7 @@ const joinRoomBtn = document.getElementById("joinRoomBtn");
 const roomStatus = document.getElementById("roomStatus");
 
 let currentRoom = null;
+let playerColor = "white";
 let myColor = null;
 const board = document.getElementById("board");
 const turnText = document.getElementById("turn");
@@ -215,11 +216,17 @@ function handleClick(e) {
         let piece = game.get(squareName);
 
         if (!piece) return;
-if (piece.color !== game.turn()) return;
+        if (piece.color !== game.turn()) return;
 
-if (currentRoom && piece.color !== myColor) {
-    return;
-}
+        // Multiplayer color restriction
+        if (currentRoom) {
+            if (
+                (playerColor === "white" && piece.color !== "w") ||
+                (playerColor === "black" && piece.color !== "b")
+            ) {
+                return;
+            }
+        }
 
         selectedSquare = squareName;
 
@@ -233,7 +240,7 @@ if (currentRoom && piece.color !== myColor) {
         return;
     }
 
-    // IMPORTANT: move-ku munnaadi save
+    // move-ku munnaadi save
     saveGameState();
 
     const move = game.move({
@@ -423,17 +430,20 @@ joinRoomBtn.addEventListener("click", function () {
 socket.on("player_joined", function (data) {
     roomStatus.textContent = data.message;
 });
-socket.on("assign_color", function(data) {
-    myColor = data.color;
 
-    if (myColor === "w") {
-        roomStatus.textContent += " | You are WHITE";
-    } else {
+socket.on("player_color", function (data) {
+    playerColor = data.color;
+
+    if (playerColor === "black") {
+        board.style.transform = "rotate(180deg)";
         roomStatus.textContent += " | You are BLACK";
+    } else {
+        board.style.transform = "rotate(0deg)";
+        roomStatus.textContent += " | You are WHITE";
     }
+
+    drawBoard();
 });
-
-
 
 drawBoard();
 updateTimerDisplay();

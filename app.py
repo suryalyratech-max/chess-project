@@ -8,7 +8,7 @@ app.secret_key = "mysecretkey"
 socketio = SocketIO(app)
 
 # Room player count store panna
-rooms = {}
+room_players = {}
 
 
 def init_db():
@@ -112,21 +112,30 @@ def handle_join_room(data):
     room = data["room"]
     join_room(room)
 
-    if room not in rooms:
-        rooms[room] = 0
+    if room not in room_players:
+        room_players[room] = 0
 
-    rooms[room] += 1
-
-    print(f"Player joined room: {room}")
-
-    if rooms[room] == 1:
-        emit("assign_color", {"color": "w"})
-
-    elif rooms[room] == 2:
-        emit("assign_color", {"color": "b"})
+    # Room full check
+    if room_players[room] >= 2:
         emit("player_joined", {
-            "message": "Opponent joined!"
-        }, room=room)
+            "message": "Room full!"
+        })
+        return
+
+    room_players[room] += 1
+
+    if room_players[room] == 1:
+        color = "white"
+    else:
+        color = "black"
+
+    emit("player_color", {
+        "color": color
+    })
+
+    emit("player_joined", {
+        "message": f"{color} joined room!"
+    }, room=room)
 
 
 @socketio.on("move")
