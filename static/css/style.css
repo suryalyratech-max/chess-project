@@ -286,3 +286,11 @@ button{
         font-size:48px;
     }
 }
+
+.black-board {
+    transform: rotate(180deg);
+}
+
+.black-board .square img {
+    transform: rotate(180deg);
+}

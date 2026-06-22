@@ -131,6 +131,11 @@ function drawBoard() {
                 img.style.height = "52px";
                 img.draggable = false;
 
+                // Black player-ku pieces straight-a kaamikka
+                if (playerColor === "black") {
+    img.style.transform = "rotate(180deg)";
+}
+
                 square.appendChild(img);
             }
 
@@ -435,10 +440,10 @@ socket.on("player_color", function (data) {
     playerColor = data.color;
 
     if (playerColor === "black") {
-        board.style.transform = "rotate(180deg)";
+        board.classList.add("black-board");
         roomStatus.textContent += " | You are BLACK";
     } else {
-        board.style.transform = "rotate(0deg)";
+        board.classList.remove("black-board");
         roomStatus.textContent += " | You are WHITE";
     }
 
